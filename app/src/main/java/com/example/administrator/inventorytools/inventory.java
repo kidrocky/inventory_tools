@@ -28,10 +28,13 @@ public class inventory extends ActionBarActivity
     private ArrayAdapter adapter;
     private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
     private ArrayList<EPC> listEPC;
-    private ArrayList<Map<String, Object>> listMap;
     private ListView listViewData;
-    private List<byte[]> epcList;
     private UhfReader reader; //超高频读写器
+
+    public inventory(ArrayList<EPC> listEPC)
+    {
+        this.listEPC = listEPC;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -155,7 +158,7 @@ public class inventory extends ActionBarActivity
             Log.i("UhfReadTask", "onProgressUpdate() called");
             //将数据添加到ListView
             List<EPC> list = (List<EPC>)values[0];
-            listMap = new ArrayList<>();
+            ArrayList<Map<String, Object>> listMap = new ArrayList<>();
             int idcount = 1;
             for (EPC epcdata : list)
             {
@@ -169,9 +172,9 @@ public class inventory extends ActionBarActivity
             }
             // 绑定数据到listview
             listViewData.setAdapter(new SimpleAdapter(getApplicationContext(),
-                                                        listMap, R.layout.lv_item,
-                                                        new String[]{"ID", "EPC", "COUNT"},
-                                                        new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
+                    listMap, R.layout.lv_item,
+                    new String[]{"ID", "EPC", "COUNT"},
+                    new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
             // super.onProgressUpdate(values);
         }
 
@@ -187,10 +190,10 @@ public class inventory extends ActionBarActivity
         {
             Log.i("UhfReadTask", "doInBackground() called");
             // 开始实时扫描标签
-
+            List<byte[]> epcList;
             while(!this.isCancelled())
             {
-                epcList = reader.inventoryRealTime(); //实时盘存
+                epcList = reader.inventoryRealTime();
                 if (epcList != null && !epcList.isEmpty())
                 {
                     //播放提示音
@@ -201,7 +204,10 @@ public class inventory extends ActionBarActivity
                         addToList(listEPC, epcStr);
                     }
                 }
-                epcList = null;
+                if ( epcList != null )
+                {
+                    epcList.clear();
+                }
 
                 // 每一次扫描间隔一点时间
                 try
