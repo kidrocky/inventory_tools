@@ -129,6 +129,8 @@ public class inventory extends ActionBarActivity
         {
             String text = "你选择库房：" + adapter.getItem(arg2);
             Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+
+            // todo: 获取库房库存列表加入listEPC
         }
 
         public void onNothingSelected(AdapterView<?> arg0)
