@@ -185,18 +185,31 @@ public class MainActivity extends ActionBarActivity
             Log.i("UhfReadTask", "doInBackground() called");
             // 开始实时扫描标签
 
-            epcList = reader.inventoryRealTime(); //实时盘存
-            if (epcList != null && !epcList.isEmpty())
+            while(!this.isCancelled())
             {
-                //播放提示音
-                Util.play(1, 0);
-                for (byte[] epc : epcList)
+                epcList = reader.inventoryRealTime(); //实时盘存
+                if (epcList != null && !epcList.isEmpty())
                 {
-                    String epcStr = Tools.Bytes2HexString(epc, epc.length);
-                    addToList(listEPC, epcStr);
+                    //播放提示音
+                    Util.play(1, 0);
+                    for (byte[] epc : epcList)
+                    {
+                        String epcStr = Tools.Bytes2HexString(epc, epc.length);
+                        addToList(listEPC, epcStr);
+                    }
+                }
+                epcList = null;
+
+                // 每一次扫描间隔一点时间
+                try
+                {
+                    Thread.sleep(40);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
                 }
             }
-            epcList = null;
 
             return null;
         }
