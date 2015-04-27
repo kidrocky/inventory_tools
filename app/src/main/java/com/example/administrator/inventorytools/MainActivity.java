@@ -10,11 +10,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends ActionBarActivity
@@ -22,6 +29,10 @@ public class MainActivity extends ActionBarActivity
     private UhfReader reader; //超高频读写器
     private ScreenStateReceiver screenReceiver; // 屏幕状态监控广播接收器
     private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
+    private ArrayList<EPC> listEPC;
+    private ArrayList<Map<String, Object>> listMap;
+    private ListView listViewData;
+    private List<byte[]> epcList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -140,6 +151,24 @@ public class MainActivity extends ActionBarActivity
         protected void onProgressUpdate(Object[] values)
         {
             Log.i("UhfReadTask", "onProgressUpdate() called");
+            //将数据添加到ListView
+            List<EPC> list = (List<EPC>)values[0];
+            listMap = new ArrayList<Map<String, Object>>();
+            int idcount = 1;
+            for (EPC epcdata : list)
+            {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("ID", idcount);
+                map.put("EPC", epcdata.getEpc());
+                map.put("COUNT", epcdata.getCount());
+                idcount++;
+                listMap.add(map);
+            }
+            // 绑定数据到listview
+//                    listViewData.setAdapter(new SimpleAdapter(MainActivity.this,
+//                            listMap, R.layout.listview_item,
+//                            new String[]{"ID", "EPC", "COUNT"},
+//                            new int[]{R.id.textView_id, R.id.textView_epc, R.id.textView_count}));
             // super.onProgressUpdate(values);
         }
 
@@ -154,7 +183,61 @@ public class MainActivity extends ActionBarActivity
         protected Object doInBackground(Object[] params)
         {
             Log.i("UhfReadTask", "doInBackground() called");
+            // 开始实时扫描标签
+
+            epcList = reader.inventoryRealTime(); //实时盘存
+            if (epcList != null && !epcList.isEmpty())
+            {
+                //播放提示音
+                Util.play(1, 0);
+                for (byte[] epc : epcList)
+                {
+                    String epcStr = Tools.Bytes2HexString(epc, epc.length);
+                    addToList(listEPC, epcStr);
+                }
+            }
+            epcList = null;
+
             return null;
         }
+
+        //将读取的EPC添加到LISTVIEW
+        private void addToList(final List<EPC> list, final String epc)
+        {
+            //第一次读入数据
+            if (list.isEmpty())
+            {
+                EPC epcTag = new EPC();
+                epcTag.setEpc(epc);
+                epcTag.setCount(1);
+                list.add(epcTag);
+            }
+            else
+            {
+                for (int i = 0; i < list.size(); i++)
+                {
+                    EPC mEPC = list.get(i);
+                    //list中有此EPC
+                    if (epc.equals(mEPC.getEpc()))
+                    {
+                        mEPC.setCount(mEPC.getCount() + 1);
+                        list.set(i, mEPC);
+                        break;
+                    }
+                    else if (i == (list.size() - 1))
+                    {
+                        //list中没有此epc
+                        EPC newEPC = new EPC();
+                        newEPC.setEpc(epc);
+                        newEPC.setCount(1);
+                        list.add(newEPC);
+                    }
+                }
+
+                // 更新ui显示
+                publishProgress(list);
+            }
+        }
+
     }
 }
