@@ -16,7 +16,11 @@ import android.widget.Toast;
 
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +40,6 @@ public class inventory extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
-
-        // 初始化epc list
-        listEPC = new ArrayList<>();
 
         InitView();
 
@@ -131,7 +132,18 @@ public class inventory extends Activity
             String text = "你选择库房：" + adapter.getItem(arg2);
             Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 
-            // todo: 获取库房库存列表加入listEPC
+            String url = "http://192.168.1.10:8000/inventory_api/get_items_by_storehoust/" + adapter.getItem(arg2);
+            try
+            {
+                url = URLEncoder.encode(url, "UTF-8");
+                String resp = Util.HttpGet(url);
+                JSONObject jsonObject = new JSONObject(resp);
+                // todo 更新listview
+            }
+            catch (UnsupportedEncodingException | JSONException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         public void onNothingSelected(AdapterView<?> arg0)

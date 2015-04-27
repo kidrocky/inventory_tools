@@ -6,6 +6,16 @@ import java.util.Map;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 public class Util
 {
@@ -39,5 +49,26 @@ public class Util
                 1, //优先级，0为最低
                 number, //循环次数，0无不循环，-1无永远循环
                 1);//回放速度，值在0.5-2.0之间，1为正常速度
+    }
+
+    public static String HttpGet(String url)
+    {
+        try
+        {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet get = new HttpGet(url);
+            HttpResponse response = client.execute(get);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+            {
+                HttpEntity entity = response.getEntity();
+                return EntityUtils.toString(entity, HTTP.UTF_8);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("HttpGet", e.getMessage());
+        }
+
+        return "";
     }
 }
