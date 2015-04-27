@@ -21,7 +21,7 @@ public class SettingPower extends Activity implements OnClickListener
 {
 
     private EditText editValues;
-    private int value = 26;//初始值为最大，2600为26dbm(value范围16dbm~26dbm)
+    private int value = 26; //初始值为最大，2600为26dbm(value范围16dbm~26dbm)
     private UhfReader reader;
 
     @Override
@@ -76,6 +76,7 @@ public class SettingPower extends Activity implements OnClickListener
                 }
                 editValues.setText(value + "");
                 break;
+
             case R.id.button_plus://加
                 if (value < 26)
                 {
@@ -83,6 +84,7 @@ public class SettingPower extends Activity implements OnClickListener
                 }
                 editValues.setText(value + "");
                 break;
+
             case R.id.button_set://设置
                 if (reader.setOutputPower(value))
                 {
@@ -98,6 +100,5 @@ public class SettingPower extends Activity implements OnClickListener
             default:
                 break;
         }
-
     }
 }
