@@ -155,18 +155,18 @@ public class inventory extends Activity
     }
 
     // async task 读取标签数据task
-    private class UhfReadTask extends AsyncTask
+    private class UhfReadTask extends AsyncTask<String, String, String>
     {
         //onPreExecute方法用于在执行后台任务前做一些UI操作
         @Override
         protected void onPreExecute()
         {
-            Log.i("UhfReadTask", "onPreExecute() called");
+            super.onPreExecute();
         }
 
         //onProgressUpdate方法用于更新进度信息
         @Override
-        protected void onProgressUpdate(Object[] values)
+        protected void onProgressUpdate(String... values)
         {
             Log.i("UhfReadTask", "onProgressUpdate() called");
 
@@ -199,7 +199,7 @@ public class inventory extends Activity
         }
 
         @Override
-        protected Object doInBackground(Object[] params)
+        protected String doInBackground(String... params)
         {
             Log.i("UhfReadTask", "doInBackground() called");
             // 开始实时扫描标签
@@ -232,7 +232,7 @@ public class inventory extends Activity
                     e.printStackTrace();
                 }
             }
-            return null;
+            return "";
         }
 
         //将读取的EPC添加到LISTVIEW
@@ -269,7 +269,7 @@ public class inventory extends Activity
                 }
 
                 // 更新ui显示
-                publishProgress(list);
+                publishProgress("");
             }
         }
     }
