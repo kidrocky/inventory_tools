@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
             menuKeyField.setAccessible(true);
             menuKeyField.setBoolean(config, false);
-
         }
         catch (Exception e)
         {
