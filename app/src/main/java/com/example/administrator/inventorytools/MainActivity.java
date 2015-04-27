@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
+            // 打开设置页面
             Intent intent = new Intent(this, SettingPower.class);
             startActivity(intent);
         }
