@@ -30,6 +30,10 @@ public class SettingPower extends Activity implements OnClickListener
         super.onCreate(savedInstanceState);
         initView();
         reader = UhfReader.getInstance();
+        if (reader == null)
+        {
+            Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView()
@@ -85,15 +89,23 @@ public class SettingPower extends Activity implements OnClickListener
                 break;
 
             case R.id.button_set://设置
-                if (reader.setOutputPower(value))
+                if (reader != null)
                 {
-                    saveSharedValue(value);
-                    Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
+                    if (reader.setOutputPower(value))
+                    {
+                        saveSharedValue(value);
+                        Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "设置失败", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "设置失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
                 }
+                finish();
                 break;
 
             default:

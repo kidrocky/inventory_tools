@@ -2,6 +2,7 @@
   <dictionary name="Administrator">
     <words>
       <w>inventorytools</w>
+      <w>rfid</w>
     </words>
   </dictionary>
 </component>
