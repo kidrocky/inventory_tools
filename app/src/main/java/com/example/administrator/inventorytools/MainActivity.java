@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
+
+import java.lang.reflect.Field;
 
 
 public class MainActivity extends Activity
@@ -13,6 +16,9 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        setOverflowShowingAlways();
+
         setContentView(R.layout.activity_main);
     }
 
@@ -40,5 +46,25 @@ public class MainActivity extends Activity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 在actionbar上显示菜单按钮
+     */
+    private void setOverflowShowingAlways()
+    {
+        try
+        {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class
+                    .getDeclaredField("sHasPermanentMenuKey");
+            menuKeyField.setAccessible(true);
+            menuKeyField.setBoolean(config, false);
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
