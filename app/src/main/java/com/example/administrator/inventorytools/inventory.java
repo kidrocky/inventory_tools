@@ -41,6 +41,9 @@ public class inventory extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
+        // 初始化变量
+        listEPC = new ArrayList<>();
+
         InitView();
 
         // 获取reader句柄
