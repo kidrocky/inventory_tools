@@ -2,6 +2,7 @@ package com.example.administrator.inventorytools;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.location.GpsStatus;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,9 @@ public class inventory extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
+
+        // 初始化epc list
+        listEPC = new ArrayList<>();
 
         InitView();
 
