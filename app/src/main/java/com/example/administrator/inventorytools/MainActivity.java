@@ -65,6 +65,12 @@ public class MainActivity extends ActionBarActivity
         // 注销广播接收器
         unregisterReceiver(screenReceiver);
 
+        // 如果异步任务还在处理，则cancel掉
+        if ( !uhf_read_task.isCancelled() )
+        {
+            uhf_read_task.cancel(true);
+        }
+
         // 关闭reader句柄
         if (reader != null)
         {
