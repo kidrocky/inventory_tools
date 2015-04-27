@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="settings_power_label">功率（dBm）：</string>
+    <string name="settings_power_minus">减</string>
+    <string name="settings_power_add">加</string>
+    <string name="settings_power_set">设置</string>
 </resources>

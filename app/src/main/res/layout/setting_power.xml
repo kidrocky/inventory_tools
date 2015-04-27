@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/settings_power_label" />
+
+    <Button
+        android:id="@+id/button_min"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/textView1"
+        android:text="@string/settings_power_minus"
+         />
+
+    <EditText
+        android:id="@+id/editText_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button_min"
+        android:layout_toRightOf="@+id/button_min"
+        android:focusable="false"
+        android:ems="5"
+        android:inputType="number"
+        />
+
+    <Button
+        android:id="@+id/button_plus"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/button_min"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@+id/editText_power"
+        android:text="@string/settings_power_add"
+         />
+
+    <Button
+        android:id="@+id/button_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_plus"
+        android:layout_marginTop="41dp"
+        android:layout_toRightOf="@+id/editText_power"
+        android:text="@string/settings_power_set" />
+
+</RelativeLayout>
