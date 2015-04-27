@@ -1,5 +1,6 @@
 package com.example.administrator.inventorytools;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -9,7 +10,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -33,6 +36,8 @@ public class MainActivity extends ActionBarActivity
     private ArrayList<Map<String, Object>> listMap;
     private ListView listViewData;
     private List<byte[]> epcList;
+    private Button btn_search_item;
+    private Button btn_inventory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +49,9 @@ public class MainActivity extends ActionBarActivity
 
         // 设置主页面
         setContentView(R.layout.activity_main);
+
+        // 初始化界面元素
+        InitView();
 
         //添加广播，默认屏灭时休眠，屏亮时唤醒
         screenReceiver = new ScreenStateReceiver();
@@ -68,6 +76,32 @@ public class MainActivity extends ActionBarActivity
         int value = shared.getInt("value", 26);
         Log.e("", "value" + value);
         reader.setOutputPower(value);
+    }
+
+    private void InitView()
+    {
+        // 界面元素映射
+        btn_search_item = (Button) findViewById(R.id.btn_search_item);
+        btn_search_item.setOnClickListener(new ButtonClick());
+
+        btn_inventory = (Button) findViewById(R.id.btn_inventory);
+        btn_inventory.setOnClickListener(new ButtonClick());
+    }
+
+    private class ButtonClick implements View.OnClickListener
+    {
+        @Override
+        public void onClick(View v)
+        {
+            switch (v.getId())
+            {
+                case R.id.btn_inventory:
+                    break;
+
+                case R.id.btn_search_item:
+                    break;
+            }
+        }
     }
 
     @Override
