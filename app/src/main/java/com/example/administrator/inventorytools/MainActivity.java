@@ -1,6 +1,5 @@
 package com.example.administrator.inventorytools;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -96,9 +95,11 @@ public class MainActivity extends ActionBarActivity
             switch (v.getId())
             {
                 case R.id.btn_inventory:
+                    // todo: 增加处理
                     break;
 
                 case R.id.btn_search_item:
+                    // todo: 增加处理
                     break;
             }
         }
