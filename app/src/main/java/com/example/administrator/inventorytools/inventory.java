@@ -169,11 +169,11 @@ public class inventory extends Activity
         protected void onProgressUpdate(Object[] values)
         {
             Log.i("UhfReadTask", "onProgressUpdate() called");
+
             //将数据添加到ListView
-            List<EPC> list = (List<EPC>)values[0];
             ArrayList<Map<String, Object>> listMap = new ArrayList<>();
             int idcount = 1;
-            for (EPC epcdata : list)
+            for (EPC epcdata : listEPC)
             {
                 Map<String, Object> map;
                 map = new HashMap<>();
