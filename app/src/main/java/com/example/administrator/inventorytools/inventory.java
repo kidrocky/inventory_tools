@@ -19,6 +19,7 @@ public class inventory extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
+        // todo: spinner内容需要动态获取，暂时从xml里写死
         Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
         adapter = ArrayAdapter.createFromResource(this, R.array.storehouses, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
