@@ -3,6 +3,7 @@ package com.example.administrator.inventorytools;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -20,6 +21,7 @@ public class MainActivity extends ActionBarActivity
 {
     private UhfReader reader; //超高频读写器
     private ScreenStateReceiver screenReceiver; // 屏幕状态监控广播接收器
+    private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +46,7 @@ public class MainActivity extends ActionBarActivity
 
         // 获取reader句柄
         reader = UhfReader.getInstance();
-        if ( reader == null )
+        if (reader == null)
         {
             Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
             return;
@@ -114,6 +116,39 @@ public class MainActivity extends ActionBarActivity
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    // async task 读取标签数据task
+    private class UhfReadTask extends AsyncTask
+    {
+        //onPreExecute方法用于在执行后台任务前做一些UI操作
+        @Override
+        protected void onPreExecute()
+        {
+            Log.i("UhfReadTask", "onPreExecute() called");
+        }
+
+        //onProgressUpdate方法用于更新进度信息
+        @Override
+        protected void onProgressUpdate(Object[] values)
+        {
+            Log.i("UhfReadTask", "onProgressUpdate() called");
+            // super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onCancelled()
+        {
+            Log.i("UhfReadTask", "onCancelled() called");
+            super.onCancelled();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params)
+        {
+            Log.i("UhfReadTask", "doInBackground() called");
+            return null;
         }
     }
 }
