@@ -16,7 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.administrator.inventorytools.SettingPower"   android:launchMode="singleTask" />
+        <activity
+            android:name=".SettingPower"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".inventory"
+            android:label="@string/title_activity_inventory" >
+        </activity>
     </application>
 
 </manifest>

@@ -81,28 +81,26 @@ public class MainActivity extends ActionBarActivity
     {
         // 界面元素映射
         btn_search_item = (Button) findViewById(R.id.btn_search_item);
-        btn_search_item.setOnClickListener(new ButtonClick());
+        btn_search_item.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // todo: 增加处理
+            }
+        });
 
         btn_inventory = (Button) findViewById(R.id.btn_inventory);
-        btn_inventory.setOnClickListener(new ButtonClick());
-    }
-
-    private class ButtonClick implements View.OnClickListener
-    {
-        @Override
-        public void onClick(View v)
+        btn_inventory.setOnClickListener(new View.OnClickListener()
         {
-            switch (v.getId())
+            @Override
+            public void onClick(View v)
             {
-                case R.id.btn_inventory:
-                    // todo: 增加处理
-                    break;
-
-                case R.id.btn_search_item:
-                    // todo: 增加处理
-                    break;
+                // 打开盘库页面
+                Intent intent = new Intent(getApplicationContext(), inventory.class);
+                startActivity(intent);
             }
-        }
+        });
     }
 
     @Override
@@ -188,11 +186,12 @@ public class MainActivity extends ActionBarActivity
             Log.i("UhfReadTask", "onProgressUpdate() called");
             //将数据添加到ListView
             List<EPC> list = (List<EPC>)values[0];
-            listMap = new ArrayList<Map<String, Object>>();
+            listMap = new ArrayList<>();
             int idcount = 1;
             for (EPC epcdata : list)
             {
-                Map<String, Object> map = new HashMap<String, Object>();
+                Map<String, Object> map;
+                map = new HashMap<>();
                 map.put("ID", idcount);
                 map.put("EPC", epcdata.getEpc());
                 map.put("COUNT", epcdata.getCount());
@@ -200,10 +199,10 @@ public class MainActivity extends ActionBarActivity
                 listMap.add(map);
             }
             // 绑定数据到listview
-//                    listViewData.setAdapter(new SimpleAdapter(MainActivity.this,
-//                            listMap, R.layout.listview_item,
-//                            new String[]{"ID", "EPC", "COUNT"},
-//                            new int[]{R.id.textView_id, R.id.textView_epc, R.id.textView_count}));
+//            listViewData.setAdapter(new SimpleAdapter(MainActivity.this,
+//                                                        listMap, R.layout.listview_item,
+//                                                        new String[]{"ID", "EPC", "COUNT"},
+//                                                        new int[]{R.id.textView_id, R.id.textView_epc, R.id.textView_count}));
             // super.onProgressUpdate(values);
         }
 

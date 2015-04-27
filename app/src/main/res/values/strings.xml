@@ -11,4 +11,6 @@
     <string name="str_connect_stat_label">联机状态：</string>
     <string name="str_connect_stat">脱机</string>
     <string name="str_inventory">盘库</string>
+    <string name="title_activity_inventory">inventory</string>
+    <string name="str_storehouse_num">库房编号：</string>
 </resources>

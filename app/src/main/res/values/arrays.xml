@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="storehouses">
+        <item>库房1</item>
+        <item>库房2</item>
+        <item>库房3</item>
+        <item>库房4</item>
+        <item>库房5</item>
+    </string-array>
+</resources>
