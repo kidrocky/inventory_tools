@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(screenReceiver, filter);
 
+        // 设置主页面
         setContentView(R.layout.activity_main);
     }
 
