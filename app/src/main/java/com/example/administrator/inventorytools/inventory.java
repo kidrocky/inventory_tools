@@ -2,7 +2,6 @@ package com.example.administrator.inventorytools;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.location.GpsStatus;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
