@@ -139,7 +139,7 @@ public class inventory extends Activity
             try
             {
                 url = URLEncoder.encode(url, "UTF-8");
-                String resp = Util.HttpGet(url);
+                String resp = Util.DoHttpGet(url);
                 JSONObject jsonObject = new JSONObject(resp);
                 // todo 更新listview
             }

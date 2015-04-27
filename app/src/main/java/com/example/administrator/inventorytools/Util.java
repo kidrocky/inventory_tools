@@ -51,7 +51,7 @@ public class Util
                 1);//回放速度，值在0.5-2.0之间，1为正常速度
     }
 
-    public static String HttpGet(String url)
+    public static String DoHttpGet(String url)
     {
         try
         {
