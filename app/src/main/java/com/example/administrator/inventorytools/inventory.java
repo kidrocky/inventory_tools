@@ -74,7 +74,7 @@ public class inventory extends ActionBarActivity
     protected void onDestroy()
     {
         // 如果异步任务还在处理，则cancel掉
-        if ( !uhf_read_task.isCancelled() )
+        if ( uhf_read_task != null && !uhf_read_task.isCancelled() )
         {
             uhf_read_task.cancel(true);
         }
