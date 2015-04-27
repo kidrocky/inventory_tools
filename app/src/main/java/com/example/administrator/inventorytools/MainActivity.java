@@ -1,6 +1,7 @@
 package com.example.administrator.inventorytools;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -16,7 +17,15 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
 
+        // 设置始终显示菜单栏
         setOverflowShowingAlways();
+
+        //添加广播，默认屏灭时休眠，屏亮时唤醒
+        ScreenStateReceiver screenReceiver = new ScreenStateReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(screenReceiver, filter);
 
         setContentView(R.layout.activity_main);
     }
