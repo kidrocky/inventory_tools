@@ -1,8 +1,8 @@
 package com.example.administrator.inventorytools;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,18 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 
-public class inventory extends ActionBarActivity
+public class inventory extends Activity
 {
     private ArrayAdapter adapter;
     private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
     private ArrayList<EPC> listEPC;
     private ListView listViewData;
     private UhfReader reader; //超高频读写器
-
-    public inventory(ArrayList<EPC> listEPC)
-    {
-        this.listEPC = listEPC;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
