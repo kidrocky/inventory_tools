@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="查找证物"
+        android:text="@string/str_search_items"
         android:id="@+id/btn_search_item"
         android:layout_marginTop="28dp"
         android:layout_below="@+id/tv_connect_stat_label"
@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="联机状态："
+        android:text="@string/str_connect_stat_label"
         android:id="@+id/tv_connect_stat_label"
         android:textColor="#ffffffff"
         android:layout_alignParentTop="true"
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="脱机"
+        android:text="@string/str_connect_stat"
         android:id="@+id/tv_connect_stat"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/tv_connect_stat_label"
@@ -40,7 +40,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="盘库"
+        android:text="@string/str_inventory"
         android:id="@+id/btn_inventory"
         android:layout_alignBottom="@+id/btn_search_item"
         android:layout_toEndOf="@+id/tv_connect_stat"/>

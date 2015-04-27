@@ -7,4 +7,8 @@
     <string name="settings_power_minus">减</string>
     <string name="settings_power_add">加</string>
     <string name="settings_power_set">设置</string>
+    <string name="str_search_items">查找证物</string>
+    <string name="str_connect_stat_label">联机状态：</string>
+    <string name="str_connect_stat">脱机</string>
+    <string name="str_inventory">盘库</string>
 </resources>
