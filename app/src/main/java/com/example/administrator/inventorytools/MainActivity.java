@@ -235,9 +235,8 @@ public class MainActivity extends ActionBarActivity
                 }
 
                 // 更新ui显示
-                publishProgress(list);
+                this.publishProgress(list);
             }
         }
-
     }
 }
