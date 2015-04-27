@@ -105,6 +105,7 @@ public class SettingPower extends Activity implements OnClickListener
                 {
                     Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
                 }
+
                 finish();
                 break;
 
