@@ -37,6 +37,7 @@ public class inventory extends Activity
     private UhfReader reader; //超高频读写器
     private ArrayList<Map<String, Object>> storehouse_map;
     private ArrayList<Map<String, Object>> storehouse_item_map;
+    private SimpleAdapter lv_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -250,10 +251,11 @@ public class inventory extends Activity
 
                 System.out.println("666" + storehouse_item_map);
                 // 绑定数据到listview
-                listViewData.setAdapter(new SimpleAdapter(getApplicationContext(),
+                lv_adapter = new SimpleAdapter(getApplicationContext(),
                         storehouse_item_map, R.layout.lv_item,
                         new String[]{"itemname", "epc", "store_desc"},
-                        new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
+                        new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count});
+                listViewData.setAdapter(lv_adapter);
             }
             catch (JSONException e)
             {
@@ -283,7 +285,7 @@ public class inventory extends Activity
             Log.i("UhfReadTask", "onProgressUpdate() called");
 
             // 刷新listview
-            adapter.notifyDataSetChanged();
+            lv_adapter.notifyDataSetChanged();
         }
 
         @Override
