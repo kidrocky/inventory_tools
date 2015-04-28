@@ -1,5 +1,6 @@
 package com.example.administrator.inventorytools;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class Util
     {
         Util.context = context;
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
-        soundMap = new HashMap<Integer, Integer>();
+        soundMap = new HashMap<>();
         soundMap.put(1, sp.load(context, R.raw.msg, 1));
     }
 

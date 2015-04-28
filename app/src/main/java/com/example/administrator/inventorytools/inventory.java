@@ -18,10 +18,14 @@ import android.widget.Toast;
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
 
+import org.apache.http.util.EncodingUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +74,7 @@ public class inventory extends ActionBarActivity
         if (reader == null)
         {
             Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
-            // todo return;
+            return;
         }
         else
         {
@@ -168,6 +172,45 @@ public class inventory extends ActionBarActivity
         super.onDestroy();
     }
 
+    //写数据
+    public void writeFile(String fileName, String writestr) throws IOException
+    {
+        try
+        {
+            FileOutputStream fout = openFileOutput(fileName, MODE_PRIVATE);
+            byte[] bytes = writestr.getBytes();
+            fout.write(bytes);
+            fout.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //读数据
+    public String readFile(String fileName) throws IOException
+    {
+        String res = "";
+        try
+        {
+            FileInputStream fin = openFileInput(fileName);
+            int length = fin.available();
+            byte[] buffer = new byte[length];
+            int read_result = fin.read(buffer);
+            if ( read_result > 0 )
+            {
+                res = EncodingUtils.getString(buffer, "UTF-8");
+            }
+            fin.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
     private void InitView()
     {
         listViewData = (ListView) findViewById(R.id.lv_inventory);
@@ -211,6 +254,7 @@ public class inventory extends ActionBarActivity
                 {
                     // todo 存本地操作记录文件
                     System.out.println(connect_stat);
+
                 }
                 else
                 {

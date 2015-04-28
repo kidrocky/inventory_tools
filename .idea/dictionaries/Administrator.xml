@@ -2,12 +2,14 @@
   <dictionary name="Administrator">
     <words>
       <w>baos</w>
+      <w>fout</w>
       <w>inventorytools</w>
       <w>itemname</w>
       <w>itemno</w>
       <w>rfid</w>
       <w>storehouseid</w>
       <w>storename</w>
+      <w>writestr</w>
     </words>
   </dictionary>
 </component>
