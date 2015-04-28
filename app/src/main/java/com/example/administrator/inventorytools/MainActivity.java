@@ -89,6 +89,19 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
             }
         });
+
+        Button btn_write_rfid = (Button) findViewById(R.id.btn_write_rfid);
+        btn_write_rfid.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // 打开盘库页面
+                Intent intent = new Intent(getApplicationContext(), WriteRfidActivity.class);
+                intent.putExtra("connect_stat", connect_stat);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

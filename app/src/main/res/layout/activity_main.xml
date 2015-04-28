@@ -45,8 +45,15 @@
         android:layout_height="wrap_content"
         android:text="@string/str_inventory"
         android:id="@+id/btn_inventory"
-        android:layout_alignBottom="@+id/btn_search_item"
-        android:layout_toEndOf="@+id/tv_connect_stat"
-        android:layout_toRightOf="@+id/tv_connect_stat"/>
+        android:layout_alignTop="@+id/btn_search_item"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_write_rfid"
+        android:id="@+id/btn_write_rfid"
+        android:layout_alignBottom="@+id/btn_inventory"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

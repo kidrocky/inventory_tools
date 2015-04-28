@@ -12,12 +12,13 @@
         android:layout_alignParentLeft="true"/>
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sp_rfid"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tv_rfid_label"
-        android:spinnerMode="dialog"/>
+        android:spinnerMode="dialog"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tv_item_name_label"/>
 
     <TextView
         android:layout_width="wrap_content"
