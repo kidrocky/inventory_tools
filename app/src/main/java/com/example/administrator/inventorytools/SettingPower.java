@@ -23,7 +23,6 @@ public class SettingPower extends Activity implements OnClickListener
     private EditText editValues;
     private int value = 26; //初始值为最大，2600为26dbm(value范围16dbm~26dbm)
     private UhfReader reader;
-    private SeekBar sb_power;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
