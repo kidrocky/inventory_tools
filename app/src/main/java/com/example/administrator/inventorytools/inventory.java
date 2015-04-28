@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +36,8 @@ public class inventory extends Activity
     private ArrayList<EPC> listEPC;
     private ListView listViewData;
     private UhfReader reader; //超高频读写器
+    private ArrayList<Map<String, Object>> storehouse_map;
+    private ArrayList<String> storehouse_name_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +47,8 @@ public class inventory extends Activity
 
         // 初始化变量
         listEPC = new ArrayList<>();
+        storehouse_map = new ArrayList<>();
+        storehouse_name_list = new ArrayList<>();
 
         InitView();
 
@@ -63,27 +69,55 @@ public class inventory extends Activity
         }
 
         // todo: spinner内容需要动态获取，暂时从xml里写死
-        JSONObject storehouse_list = null;
+        /*
         try
         {
-            storehouse_list = GetStoreHouseList();
+            storehouse_list = this.GetStoreHouseList();
         }
         catch (JSONException e)
         {
             e.printStackTrace();
         }
+        */
+        // for test
+        JSONArray jsonArray;
+        try
+        {
+            // for test
+            jsonArray = new JSONArray("[{\"id\": 1, \"storename\": \"物证库房\"}, {\"id\": 2, \"storename\": \"武器库房\"}, {\"id\": 3, \"storename\": \"耗材库房\"}, {\"id\": 4, \"storename\": \"还有啥子库房\"}]");
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                try
+                {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    System.out.println("111" + jsonObject);
 
-        if ( storehouse_list == null )
-        {
-            Toast.makeText(getApplicationContext(), "获取库房列表失败!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+                    Map<String, Object> map;
+                    map = new HashMap<>();
+                    map.put("ID", jsonObject.getInt("id"));
+                    map.put("NAME", jsonObject.getString("storename"));
+                    storehouse_map.add(map);
+                    storehouse_name_list.add(jsonObject.getString("storename"));
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("222" + storehouse_name_list);
+            System.out.println("333" + storehouse_map);
+
+            // 下拉列表内容
             Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
-            adapter = ArrayAdapter.createFromResource(this, R.array.storehouses, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+            //将可选内容与ArrayAdapter连接起来
+            adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, storehouse_name_list);
+            // adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, m);
 
-            //将adapter2 添加到spinner中
+            //设置下拉列表的风格
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            //将adapter 添加到spinner中
             spinner_storehouses.setAdapter(adapter);
 
             //添加事件Spinner事件监听
@@ -92,13 +126,14 @@ public class inventory extends Activity
             //设置默认值
             spinner_storehouses.setVisibility(View.VISIBLE);
         }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     protected JSONObject GetStoreHouseList() throws JSONException
     {
-        // for test
-        return new JSONObject("[{\"id\": 1, \"storename\": \"物证库房\"}, {\"id\": 2, \"storename\": \"武器库房\"}, {\"id\": 3, \"storename\": \"耗材库房\"}, {\"id\": 4, \"storename\": \"还有啥子库房}]");
-        /*
         String url = "http://rocknio.gnway.cc:8000/inventory_api/get_storehouse_list/";
         try
         {
@@ -111,7 +146,6 @@ public class inventory extends Activity
         }
 
         return null;
-        */
     }
 
     @Override
@@ -171,13 +205,16 @@ public class inventory extends Activity
     {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
         {
+            System.out.println(position);
+
             String text = "你选择库房：" + adapter.getItem(position);
             Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 
-            @SuppressWarnings("unchecked")
             //获取被点击的item所对应的数据
-            HashMap<String,Object> map = (HashMap<String, Object>) parent.getItemAtPosition(position);
+            Map<String, Object> map = storehouse_map.get(position);
+            System.out.println("444" + map);
 
+            /*
             String url = "http://rocknio.gnway.cc:8000/inventory_api/get_items_by_storehouse/" + map.get("id").toString();
             try
             {
@@ -190,6 +227,7 @@ public class inventory extends Activity
             {
                 e.printStackTrace();
             }
+            */
         }
 
         public void onNothingSelected(AdapterView<?> arg0)

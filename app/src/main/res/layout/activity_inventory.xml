@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_storehouses"
-        android:layout_alignBottom="@+id/tv_store_label"
         android:layout_toEndOf="@+id/tv_store_label"
         android:layout_toRightOf="@+id/tv_store_label"
         android:spinnerMode="dialog"
@@ -47,9 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lv_inventory"
-        android:layout_below="@+id/tv_store_label"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/btn_inventory"/>
+        android:layout_above="@+id/btn_inventory"
+        android:layout_below="@+id/spinner_storehouses"/>
 
 </RelativeLayout>
