@@ -74,7 +74,7 @@ public class inventory extends ActionBarActivity
         if (reader == null)
         {
             Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
-            return;
+            // return;
         }
         else
         {
@@ -316,7 +316,7 @@ public class inventory extends ActionBarActivity
                         detail_map.put("itemname", jsonObject.getString("itemname"));
                         detail_map.put("id", jsonObject.getInt("id"));
                         detail_map.put("store_desc", "不在库");
-                        detail_map.put("epc", jsonObject.getInt("epc"));
+                        detail_map.put("epc", jsonObject.getString("epc"));
                         System.out.println("555" + detail_map);
                         storehouse_item_map.add(detail_map);
                     }

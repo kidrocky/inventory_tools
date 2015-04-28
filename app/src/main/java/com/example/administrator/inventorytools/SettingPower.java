@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 /**
@@ -22,6 +23,7 @@ public class SettingPower extends Activity implements OnClickListener
     private EditText editValues;
     private int value = 26; //初始值为最大，2600为26dbm(value范围16dbm~26dbm)
     private UhfReader reader;
+    private SeekBar sb_power;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +51,28 @@ public class SettingPower extends Activity implements OnClickListener
         value = getSharedValue();
         editValues.setText("" + value);
 
+        SeekBar sb_power = (SeekBar) findViewById(R.id.sb_power);
+        sb_power.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                int cur_value = 16 + progress;
+                editValues.setText(Integer.toString(cur_value));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+        });
     }
 
     //获取存储Value

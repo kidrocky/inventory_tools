@@ -50,4 +50,14 @@
         android:layout_toRightOf="@+id/editText_power"
         android:text="@string/settings_power_set" />
 
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sb_power"
+        android:layout_below="@+id/editText_power"
+        android:layout_alignLeft="@+id/button_min"
+        android:layout_alignRight="@+id/button_plus"
+        android:max="10"
+        android:progress="10"/>
+
 </RelativeLayout>
