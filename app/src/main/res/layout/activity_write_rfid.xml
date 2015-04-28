@@ -25,17 +25,16 @@
         android:layout_height="wrap_content"
         android:text="@string/str_item_name"
         android:id="@+id/tv_item_name_label"
-        android:layout_below="@+id/sp_rfid"
+        android:layout_below="@+id/editText"
         android:layout_alignParentLeft="true"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_below="@+id/sp_rfid"
-        android:layout_toRightOf="@+id/tv_item_name_label"
-        android:layout_alignParentRight="true"
-        android:inputType=""/>
+        android:inputType=""
+        android:layout_below="@+id/tv_item_name_label"
+        android:layout_toRightOf="@+id/tv_item_name_label"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -44,5 +43,5 @@
         android:id="@+id/btn_write_rfid"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"/>
+        android:layout_marginTop="69dp"/>
 </RelativeLayout>
