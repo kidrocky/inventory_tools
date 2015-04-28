@@ -33,7 +33,6 @@ public class inventory extends Activity
 {
     private ArrayAdapter adapter;
     private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
-    private ArrayList<EPC> listEPC;
     private ListView listViewData;
     private UhfReader reader; //超高频读写器
     private ArrayList<Map<String, Object>> storehouse_map;
@@ -46,7 +45,6 @@ public class inventory extends Activity
         setContentView(R.layout.activity_inventory);
 
         // 初始化变量
-        listEPC = new ArrayList<>();
         storehouse_map = new ArrayList<>();
         ArrayList<String> storehouse_name_list = new ArrayList<>();
         storehouse_item_map = new ArrayList<>();
@@ -325,6 +323,9 @@ public class inventory extends Activity
                     epcList.clear();
                 }
 
+                // 更新ui
+                publishProgress("");
+
                 // 每一次扫描间隔一点时间
                 try
                 {
@@ -336,44 +337,6 @@ public class inventory extends Activity
                 }
             }
             return "";
-        }
-
-        //将读取的EPC添加到LISTVIEW
-        private void addToList(final List<EPC> list, final String epc)
-        {
-            //第一次读入数据
-            if (list.isEmpty())
-            {
-                EPC epcTag = new EPC();
-                epcTag.setEpc(epc);
-                epcTag.setCount(1);
-                list.add(epcTag);
-            }
-            else
-            {
-                for (int i = 0; i < list.size(); i++)
-                {
-                    EPC mEPC = list.get(i);
-                    //list中有此EPC
-                    if (epc.equals(mEPC.getEpc()))
-                    {
-                        mEPC.setCount(mEPC.getCount() + 1);
-                        list.set(i, mEPC);
-                        break;
-                    }
-                    else if (i == (list.size() - 1))
-                    {
-                        //list中没有此epc
-                        EPC newEPC = new EPC();
-                        newEPC.setEpc(epc);
-                        newEPC.setCount(1);
-                        list.add(newEPC);
-                    }
-                }
-
-                // 更新ui显示
-                publishProgress("");
-            }
         }
     }
 }
