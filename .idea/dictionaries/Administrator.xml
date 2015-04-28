@@ -3,7 +3,10 @@
     <words>
       <w>baos</w>
       <w>inventorytools</w>
+      <w>itemname</w>
+      <w>itemno</w>
       <w>rfid</w>
+      <w>storehouseid</w>
       <w>storename</w>
     </words>
   </dictionary>
