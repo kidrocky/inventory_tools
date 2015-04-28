@@ -172,6 +172,7 @@ public class inventory extends ActionBarActivity
         super.onDestroy();
     }
 
+    //读写/data/data/<应用程序名>目录上的文件:
     //写数据
     public void writeFile(String fileName, String writestr) throws IOException
     {
