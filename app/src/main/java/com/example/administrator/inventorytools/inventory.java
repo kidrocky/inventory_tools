@@ -1,6 +1,7 @@
 package com.example.administrator.inventorytools;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import java.util.Map;
 
 import static com.example.administrator.inventorytools.Util.DoHttpGet;
 
-
 public class inventory extends Activity
 {
     private ArrayAdapter adapter;
@@ -38,12 +38,18 @@ public class inventory extends Activity
     private ArrayList<Map<String, Object>> storehouse_map;
     private ArrayList<Map<String, Object>> storehouse_item_map;
     private SimpleAdapter lv_adapter;
+    private int connect_stat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
+
+        // 从intent中获取联机状态
+        Intent intent = getIntent();
+        connect_stat = intent.getIntExtra("connect_stat", 0);
+        System.out.println("-------------------connect_stat = " + connect_stat);
 
         // 初始化变量
         storehouse_map = new ArrayList<>();
@@ -194,7 +200,16 @@ public class inventory extends Activity
             @Override
             public void onClick(View v)
             {
-                // todo 同步数据
+                if ( connect_stat == 0 )
+                {
+                    // todo 存本地操作记录文件
+                    System.out.println(connect_stat);
+                }
+                else
+                {
+                    // todo 同步数据
+                    System.out.println(connect_stat);
+                }
             }
         });
     }

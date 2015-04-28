@@ -2,6 +2,7 @@ package com.example.administrator.inventorytools;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,12 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
+import android.widget.TextView;
+
 import java.lang.reflect.Field;
 
 
 public class MainActivity extends ActionBarActivity
 {
     private ScreenStateReceiver screenReceiver; // 屏幕状态监控广播接收器
+    private int connect_stat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +43,26 @@ public class MainActivity extends ActionBarActivity
 
         //初始化声音池
         Util.initSoundPool(this);
+
+        // 测试是否联机
+        TextView tv_connect_stat = (TextView) findViewById(R.id.tv_connect_stat);
+        connect_stat = ifOnline();
+        if ( connect_stat == 0 )
+        {
+            tv_connect_stat.setText("脱机");
+            tv_connect_stat.setTextColor(Color.rgb(255, 0, 0));
+        }
+        else
+        {
+            tv_connect_stat.setText("联机");
+            tv_connect_stat.setTextColor(Color.rgb(255, 255, 255));
+        }
+    }
+
+    private int ifOnline()
+    {
+        // todo 测试是否联机
+        return 1;
     }
 
     private void InitView()
@@ -62,6 +86,7 @@ public class MainActivity extends ActionBarActivity
             {
                 // 打开盘库页面
                 Intent intent = new Intent(getApplicationContext(), inventory.class);
+                intent.putExtra("connect_stat", connect_stat);
                 startActivity(intent);
             }
         });
