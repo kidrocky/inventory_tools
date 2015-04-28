@@ -51,28 +51,55 @@ public class inventory extends Activity
         if (reader == null)
         {
             Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
-            return;
+            // todo return;
+        }
+        else
+        {
+            //获取用户设置功率,并设置
+            SharedPreferences shared = getSharedPreferences("power", 0);
+            int value = shared.getInt("value", 26);
+            Log.e("", "value" + value);
+            reader.setOutputPower(value);
         }
 
-        //获取用户设置功率,并设置
-        SharedPreferences shared = getSharedPreferences("power", 0);
-        int value = shared.getInt("value", 26);
-        Log.e("", "value" + value);
-        reader.setOutputPower(value);
-
         // todo: spinner内容需要动态获取，暂时从xml里写死
-        Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
-        adapter = ArrayAdapter.createFromResource(this, R.array.storehouses, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        JSONObject storehouse_list = GetStoreHouseList();
+        if ( storehouse_list == null )
+        {
+            Toast.makeText(getApplicationContext(), "获取库房列表失败!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
 
-        //将adapter2 添加到spinner中
-        spinner_storehouses.setAdapter(adapter);
+            Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
+            adapter = ArrayAdapter.createFromResource(this, R.array.storehouses, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
-        //添加事件Spinner事件监听
-        spinner_storehouses.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+            //将adapter2 添加到spinner中
+            spinner_storehouses.setAdapter(adapter);
 
-        //设置默认值
-        spinner_storehouses.setVisibility(View.VISIBLE);
+            //添加事件Spinner事件监听
+            spinner_storehouses.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+
+            //设置默认值
+            spinner_storehouses.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected JSONObject GetStoreHouseList()
+    {
+        String url = "http://192.168.1.10:8000/inventory_api/get_storehouse_list/";
+        try
+        {
+            String resp = Util.DoHttpGet(url);
+            return new JSONObject(resp);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
@@ -130,12 +157,16 @@ public class inventory extends Activity
     //使用XML形式操作
     class SpinnerXMLSelectedListener implements AdapterView.OnItemSelectedListener
     {
-        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
         {
-            String text = "你选择库房：" + adapter.getItem(arg2);
+            String text = "你选择库房：" + adapter.getItem(position);
             Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 
-            String url = "http://192.168.1.10:8000/inventory_api/get_items_by_storehoust/" + adapter.getItem(arg2);
+            @SuppressWarnings("unchecked")
+            //获取被点击的item所对应的数据
+            HashMap<String,Object> map = (HashMap<String, Object>) parent.getItemAtPosition(position);
+
+            String url = "http://192.168.1.10:8000/inventory_api/get_items_by_storehouse/" + map.get("id").toString();
             try
             {
                 url = URLEncoder.encode(url, "UTF-8");
