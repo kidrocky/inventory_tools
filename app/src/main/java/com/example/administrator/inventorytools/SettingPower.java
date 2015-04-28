@@ -95,7 +95,7 @@ public class SettingPower extends Activity implements OnClickListener
     {
         switch (v.getId())
         {
-            case R.id.button_min://减
+            case R.id.button_min:   //减
                 if (value > 16)
                 {
                     value = value - 1;
@@ -103,7 +103,7 @@ public class SettingPower extends Activity implements OnClickListener
                 editValues.setText(value + "");
                 break;
 
-            case R.id.button_plus://加
+            case R.id.button_plus:  //加
                 if (value < 26)
                 {
                     value = value + 1;
@@ -111,7 +111,7 @@ public class SettingPower extends Activity implements OnClickListener
                 editValues.setText(value + "");
                 break;
 
-            case R.id.button_set://设置
+            case R.id.button_set:   //设置
                 if (reader != null)
                 {
                     if (reader.setOutputPower(value))
