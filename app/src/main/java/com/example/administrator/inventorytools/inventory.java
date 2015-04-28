@@ -21,12 +21,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.administrator.inventorytools.Util.DoHttpGet;
 
 
 public class inventory extends Activity
@@ -37,7 +37,7 @@ public class inventory extends Activity
     private ListView listViewData;
     private UhfReader reader; //超高频读写器
     private ArrayList<Map<String, Object>> storehouse_map;
-    private ArrayList<String> storehouse_name_list;
+    private ArrayList<Map<String, Object>> storehouse_item_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,7 +48,8 @@ public class inventory extends Activity
         // 初始化变量
         listEPC = new ArrayList<>();
         storehouse_map = new ArrayList<>();
-        storehouse_name_list = new ArrayList<>();
+        ArrayList<String> storehouse_name_list = new ArrayList<>();
+        storehouse_item_map = new ArrayList<>();
 
         InitView();
 
@@ -112,7 +113,6 @@ public class inventory extends Activity
             Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
             //将可选内容与ArrayAdapter连接起来
             adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, storehouse_name_list);
-            // adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, m);
 
             //设置下拉列表的风格
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -132,20 +132,10 @@ public class inventory extends Activity
         }
     }
 
-    protected JSONObject GetStoreHouseList() throws JSONException
+    protected String GetStoreHouseList()
     {
         String url = "http://rocknio.gnway.cc:8000/inventory_api/get_storehouse_list/";
-        try
-        {
-            String resp = Util.DoHttpGet(url);
-            return new JSONObject(resp);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
+        return DoHttpGet(url);
     }
 
     @Override
@@ -228,6 +218,48 @@ public class inventory extends Activity
                 e.printStackTrace();
             }
             */
+
+            // for test
+            JSONArray jsonArray;
+            storehouse_item_map.clear();
+            try
+            {
+                jsonArray = new JSONArray("[{\"itemno\": \"0001\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"屠龙刀\", \"id\": 1}, {\"itemno\": \"0002\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"倚天剑\", \"id\": 2}, {\"itemno\": \"0003\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"独孤九剑\", \"id\": 3}, {\"itemno\": \"0004\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"辟邪剑谱\", \"id\": 4}]");
+                for (int i = 0; i < jsonArray.length(); i++)
+                {
+                    try
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        System.out.println("111" + jsonObject);
+
+                        Map<String, Object> tmp_map;
+                        tmp_map = new HashMap<>();
+                        tmp_map.put("itemno", jsonObject.getString("itemno"));
+                        tmp_map.put("status", jsonObject.getInt("status"));
+                        tmp_map.put("storehouseid", jsonObject.getInt("storehouseid"));
+                        tmp_map.put("itemname", jsonObject.getString("itemname"));
+                        tmp_map.put("id", jsonObject.getInt("id"));
+                        tmp_map.put("store_desc", "不在库");
+                        System.out.println("555" + tmp_map);
+                        storehouse_item_map.add(tmp_map);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+                System.out.println("666" + storehouse_item_map);
+                // 绑定数据到listview
+                listViewData.setAdapter(new SimpleAdapter(getApplicationContext(),
+                        storehouse_item_map, R.layout.lv_item,
+                        new String[]{"itemname", "itemno", "store_desc"},
+                        new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         public void onNothingSelected(AdapterView<?> arg0)
@@ -251,25 +283,15 @@ public class inventory extends Activity
         {
             Log.i("UhfReadTask", "onProgressUpdate() called");
 
-            //将数据添加到ListView
-            ArrayList<Map<String, Object>> listMap = new ArrayList<>();
-            int idcount = 1;
             for (EPC epcdata : listEPC)
             {
-                Map<String, Object> map;
-                map = new HashMap<>();
-                map.put("ID", idcount);
-                map.put("EPC", epcdata.getEpc());
-                map.put("COUNT", epcdata.getCount());
-                idcount++;
-                listMap.add(map);
+                // todo 修改在库/不在库状态
             }
             // 绑定数据到listview
             listViewData.setAdapter(new SimpleAdapter(getApplicationContext(),
-                    listMap, R.layout.lv_item,
-                    new String[]{"ID", "EPC", "COUNT"},
+                    storehouse_item_map, R.layout.lv_item,
+                    new String[]{"itemname", "itemno", "store_desc"},
                     new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
-            // super.onProgressUpdate(values);
         }
 
         @Override
