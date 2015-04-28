@@ -51,11 +51,11 @@ public class inventory extends ActionBarActivity
         connect_stat = intent.getIntExtra("connect_stat", 0);
         if ( connect_stat == 0 )
         {
-            this.setTitle("脱机");
+            this.setTitle("脱机盘点");
         }
         else
         {
-            this.setTitle("联机");
+            this.setTitle("联机盘点");
         }
 
         // 初始化变量
