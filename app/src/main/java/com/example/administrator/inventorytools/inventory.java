@@ -224,7 +224,7 @@ public class inventory extends Activity
             storehouse_item_map.clear();
             try
             {
-                jsonArray = new JSONArray("[{\"itemno\": \"0001\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"屠龙刀\", \"id\": 1}, {\"itemno\": \"0002\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"倚天剑\", \"id\": 2}, {\"itemno\": \"0003\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"独孤九剑\", \"id\": 3}, {\"itemno\": \"0004\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"辟邪剑谱\", \"id\": 4}]");
+                jsonArray = new JSONArray("[{\"itemno\": \"0001\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"屠龙刀\", \"id\": 1, \"epc\": \"0000001\"}, {\"itemno\": \"0002\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"倚天剑\", \"id\": 2, \"epc\": \"0000002\"}, {\"itemno\": \"0003\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"独孤九剑\", \"id\": 3, \"epc\": \"0000003\"}, {\"itemno\": \"0004\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"辟邪剑谱\", \"id\": 4, \"epc\": \"0000004\"}]");
                 for (int i = 0; i < jsonArray.length(); i++)
                 {
                     try
@@ -232,16 +232,17 @@ public class inventory extends Activity
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         System.out.println("111" + jsonObject);
 
-                        Map<String, Object> tmp_map;
-                        tmp_map = new HashMap<>();
-                        tmp_map.put("itemno", jsonObject.getString("itemno"));
-                        tmp_map.put("status", jsonObject.getInt("status"));
-                        tmp_map.put("storehouseid", jsonObject.getInt("storehouseid"));
-                        tmp_map.put("itemname", jsonObject.getString("itemname"));
-                        tmp_map.put("id", jsonObject.getInt("id"));
-                        tmp_map.put("store_desc", "不在库");
-                        System.out.println("555" + tmp_map);
-                        storehouse_item_map.add(tmp_map);
+                        Map<String, Object> detail_map;
+                        detail_map = new HashMap<>();
+                        detail_map.put("itemno", jsonObject.getString("itemno"));
+                        detail_map.put("status", jsonObject.getInt("status"));
+                        detail_map.put("storehouseid", jsonObject.getInt("storehouseid"));
+                        detail_map.put("itemname", jsonObject.getString("itemname"));
+                        detail_map.put("id", jsonObject.getInt("id"));
+                        detail_map.put("store_desc", "不在库");
+                        detail_map.put("epc", jsonObject.getInt("epc"));
+                        System.out.println("555" + detail_map);
+                        storehouse_item_map.add(detail_map);
                     }
                     catch (JSONException e)
                     {
@@ -253,7 +254,7 @@ public class inventory extends Activity
                 // 绑定数据到listview
                 listViewData.setAdapter(new SimpleAdapter(getApplicationContext(),
                         storehouse_item_map, R.layout.lv_item,
-                        new String[]{"itemname", "itemno", "store_desc"},
+                        new String[]{"itemname", "epc", "store_desc"},
                         new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
             }
             catch (JSONException e)
@@ -283,15 +284,8 @@ public class inventory extends Activity
         {
             Log.i("UhfReadTask", "onProgressUpdate() called");
 
-            for (EPC epcdata : listEPC)
-            {
-                // todo 修改在库/不在库状态
-            }
-            // 绑定数据到listview
-            listViewData.setAdapter(new SimpleAdapter(getApplicationContext(),
-                    storehouse_item_map, R.layout.lv_item,
-                    new String[]{"itemname", "itemno", "store_desc"},
-                    new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count}));
+            // 刷新listview
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -317,7 +311,13 @@ public class inventory extends Activity
                     for (byte[] epc : epcList)
                     {
                         String epcStr = Tools.Bytes2HexString(epc, epc.length);
-                        addToList(listEPC, epcStr);
+                        for (Map<String, Object> one_item: storehouse_item_map)
+                        {
+                            if ( epcStr == one_item.get("epc") )
+                            {
+                                one_item.put("store_desc", "在库");
+                            }
+                        }
                     }
                 }
                 if ( epcList != null )
