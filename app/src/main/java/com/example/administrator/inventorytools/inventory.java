@@ -1,10 +1,10 @@
 package com.example.administrator.inventorytools;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +29,7 @@ import java.util.Map;
 
 import static com.example.administrator.inventorytools.Util.DoHttpGet;
 
-public class inventory extends Activity
+public class inventory extends ActionBarActivity
 {
     private ArrayAdapter adapter;
     private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
@@ -49,7 +49,14 @@ public class inventory extends Activity
         // 从intent中获取联机状态
         Intent intent = getIntent();
         connect_stat = intent.getIntExtra("connect_stat", 0);
-        System.out.println("-------------------connect_stat = " + connect_stat);
+        if ( connect_stat == 0 )
+        {
+            this.setTitle("脱机");
+        }
+        else
+        {
+            this.setTitle("联机");
+        }
 
         // 初始化变量
         storehouse_map = new ArrayList<>();
