@@ -29,7 +29,7 @@
         android:id="@+id/btn_inventory"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/btn_inventory_back"
+        android:layout_toStartOf="@+id/btn_inventory_save"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/btn_inventory_save"/>
 
@@ -57,6 +57,7 @@
         android:text="@string/str_btn_inventory_save"
         android:id="@+id/btn_inventory_save"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btn_inventory_back"/>
+        android:layout_toLeftOf="@+id/btn_inventory_back"
+        android:layout_toStartOf="@id/btn_inventory_back"/>
 
 </RelativeLayout>
