@@ -137,7 +137,7 @@ public class inventory extends ActionBarActivity
             spinner_storehouses.setAdapter(adapter);
 
             //添加事件Spinner事件监听
-            spinner_storehouses.setOnItemSelectedListener(new SpinnerXMLSelectedListener());
+            spinner_storehouses.setOnItemSelectedListener(new SpinnerJsonSelectedListener());
 
             //设置默认值
             spinner_storehouses.setVisibility(View.VISIBLE);
@@ -267,7 +267,7 @@ public class inventory extends ActionBarActivity
     }
 
     //使用XML形式操作
-    class SpinnerXMLSelectedListener implements AdapterView.OnItemSelectedListener
+    class SpinnerJsonSelectedListener implements AdapterView.OnItemSelectedListener
     {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
         {
