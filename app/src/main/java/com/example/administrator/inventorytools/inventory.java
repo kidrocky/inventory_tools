@@ -63,14 +63,22 @@ public class inventory extends Activity
         }
 
         // todo: spinner内容需要动态获取，暂时从xml里写死
-        JSONObject storehouse_list = GetStoreHouseList();
+        JSONObject storehouse_list = null;
+        try
+        {
+            storehouse_list = GetStoreHouseList();
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
         if ( storehouse_list == null )
         {
             Toast.makeText(getApplicationContext(), "获取库房列表失败!", Toast.LENGTH_SHORT).show();
         }
         else
         {
-
             Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
             adapter = ArrayAdapter.createFromResource(this, R.array.storehouses, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -86,8 +94,11 @@ public class inventory extends Activity
         }
     }
 
-    protected JSONObject GetStoreHouseList()
+    protected JSONObject GetStoreHouseList() throws JSONException
     {
+        // for test
+        return new JSONObject("[{\"id\": 1, \"storename\": \"物证库房\"}, {\"id\": 2, \"storename\": \"武器库房\"}, {\"id\": 3, \"storename\": \"耗材库房\"}, {\"id\": 4, \"storename\": \"还有啥子库房}]");
+        /*
         String url = "http://rocknio.gnway.cc:8000/inventory_api/get_storehouse_list/";
         try
         {
@@ -100,6 +111,7 @@ public class inventory extends Activity
         }
 
         return null;
+        */
     }
 
     @Override

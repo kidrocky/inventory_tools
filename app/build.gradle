@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.example.administrator.inventorytools"
         minSdkVersion 15
-        targetSdkVersion 17
+        targetSdkVersion 16
         versionCode 1
         versionName "1.0"
     }
@@ -24,4 +24,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.0'
     compile files('D:/AndroidStudioProjects/InventoryTools/libs/uhf.jar')
+    compile files('D:/AndroidStudioProjects/InventoryTools/libs/android-support-v4.jar')
 }
