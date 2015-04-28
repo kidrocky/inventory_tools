@@ -166,7 +166,7 @@ public class inventory extends Activity
             @Override
             public void onClick(View v)
             {
-                if ( reader != null )
+                if (reader != null)
                 {
                     uhf_read_task = new UhfReadTask();
                     uhf_read_task.execute("");
@@ -185,6 +185,16 @@ public class inventory extends Activity
             public void onClick(View v)
             {
                 finish();
+            }
+        });
+
+        Button btn_inventory_save = (Button) findViewById(R.id.btn_inventory_save);
+        btn_inventory_save.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // todo 同步数据
             }
         });
     }

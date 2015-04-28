@@ -30,8 +30,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/btn_inventory_back"
-        android:layout_toLeftOf="@+id/btn_inventory_back"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/btn_inventory_save"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -50,5 +50,13 @@
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/btn_inventory"
         android:layout_below="@+id/spinner_storehouses"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_btn_inventory_save"
+        android:id="@+id/btn_inventory_save"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btn_inventory_back"/>
 
 </RelativeLayout>

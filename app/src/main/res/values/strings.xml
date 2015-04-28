@@ -15,4 +15,5 @@
     <string name="str_storehouse_num">库房编号：</string>
     <string name="str_btn_start_inventory">开始盘点</string>
     <string name="str_btn_cancel_inventory">退出</string>
+    <string name="str_btn_inventory_save">保存</string>
 </resources>
