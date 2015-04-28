@@ -13,4 +13,6 @@
     <string name="str_inventory">盘库</string>
     <string name="title_activity_inventory">inventory</string>
     <string name="str_storehouse_num">库房编号：</string>
+    <string name="str_btn_start_inventory">开始盘点</string>
+    <string name="str_btn_cancel_inventory">退出</string>
 </resources>

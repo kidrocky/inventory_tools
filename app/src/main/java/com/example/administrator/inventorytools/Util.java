@@ -28,7 +28,7 @@ public class Util
     {
         Util.context = context;
         sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 1);
-        soundMap = new HashMap<>();
+        soundMap = new HashMap<Integer, Integer>();
         soundMap.put(1, sp.load(context, R.raw.msg, 1));
     }
 

@@ -88,7 +88,7 @@ public class inventory extends Activity
 
     protected JSONObject GetStoreHouseList()
     {
-        String url = "http://192.168.1.10:8000/inventory_api/get_storehouse_list/";
+        String url = "http://rocknio.gnway.cc:8000/inventory_api/get_storehouse_list/";
         try
         {
             String resp = Util.DoHttpGet(url);
@@ -166,7 +166,7 @@ public class inventory extends Activity
             //获取被点击的item所对应的数据
             HashMap<String,Object> map = (HashMap<String, Object>) parent.getItemAtPosition(position);
 
-            String url = "http://192.168.1.10:8000/inventory_api/get_items_by_storehouse/" + map.get("id").toString();
+            String url = "http://rocknio.gnway.cc:8000/inventory_api/get_items_by_storehouse/" + map.get("id").toString();
             try
             {
                 url = URLEncoder.encode(url, "UTF-8");

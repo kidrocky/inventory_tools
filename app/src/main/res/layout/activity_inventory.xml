@@ -9,7 +9,8 @@
         android:text="@string/str_storehouse_num"
         android:id="@+id/tv_store_label"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"/>
 
     <Spinner
         android:layout_width="match_parent"
@@ -17,25 +18,30 @@
         android:id="@+id/spinner_storehouses"
         android:layout_alignBottom="@+id/tv_store_label"
         android:layout_toEndOf="@+id/tv_store_label"
+        android:layout_toRightOf="@+id/tv_store_label"
         android:spinnerMode="dialog"
-        android:layout_alignTop="@+id/tv_store_label"/>
+        android:layout_alignTop="@+id/tv_store_label"
+        android:layout_alignParentLeft="false"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开始盘点"
+        android:text="@string/str_btn_start_inventory"
         android:id="@+id/btn_inventory"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/btn_inventory_back"/>
+        android:layout_toStartOf="@+id/btn_inventory_back"
+        android:layout_toLeftOf="@+id/btn_inventory_back"
+        android:layout_alignParentLeft="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="退出"
+        android:text="@string/str_btn_cancel_inventory"
         android:id="@+id/btn_inventory_back"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/spinner_storehouses"/>
+        android:layout_alignEnd="@+id/spinner_storehouses"
+        android:layout_alignRight="@+id/spinner_storehouses"/>
 
     <ListView
         android:layout_width="wrap_content"
@@ -43,6 +49,7 @@
         android:id="@+id/lv_inventory"
         android:layout_below="@+id/tv_store_label"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_above="@+id/btn_inventory"/>
 
 </RelativeLayout>
