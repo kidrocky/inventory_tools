@@ -58,6 +58,7 @@
         android:id="@+id/btn_inventory_save"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/btn_inventory_back"
-        android:layout_toStartOf="@id/btn_inventory_back"/>
+        android:layout_toStartOf="@id/btn_inventory_back"
+        android:visibility="invisible"/>
 
 </RelativeLayout>
