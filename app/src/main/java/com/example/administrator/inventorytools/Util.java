@@ -58,13 +58,9 @@ public class Util
     {
         try
         {
-            System.out.println("111  " + url);
             HttpClient client = new DefaultHttpClient();
-            System.out.println("222  " + url);
             HttpGet get = new HttpGet(url);
-            System.out.println("333  " + url);
             HttpResponse response = client.execute(get);
-            System.out.println("444  " + url);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
             {
                 HttpEntity entity = response.getEntity();
@@ -78,8 +74,6 @@ public class Util
         }
         catch (Exception e)
         {
-            // Log.e("HttpGet", e.getMessage());
-            System.out.println("1111111111111111111" + url);
             e.printStackTrace();
         }
 
