@@ -291,12 +291,13 @@ public class inventory extends ActionBarActivity
         {
             System.out.println(position);
 
+            /*
             String text = "你选择库房：" + adapter.getItem(position);
             Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+            */
 
             //获取被点击的item所对应的数据
             Map<String, Object> map = storehouse_map.get(position);
-            System.out.println("444" + map);
 
             try
             {
@@ -311,7 +312,6 @@ public class inventory extends ActionBarActivity
                         try
                         {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            System.out.println("111" + jsonObject);
 
                             Map<String, Object> detail_map;
                             detail_map = new HashMap<>();
@@ -372,7 +372,6 @@ public class inventory extends ActionBarActivity
             Log.i("UhfReadTask", "onProgressUpdate() called");
 
             // 刷新listview
-            System.out.println(storehouse_item_map);
             lv_adapter.notifyDataSetChanged();
         }
 
