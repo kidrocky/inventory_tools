@@ -325,12 +325,12 @@ public class inventory extends ActionBarActivity
             System.out.println("xxx - " + position + " --- " + map);
             if ( map.get("store_desc").toString().equalsIgnoreCase("不在库") )
             {
-                TextView tv = (TextView) view.findViewById(R.id.tv_count);
+                TextView tv = (TextView) view.findViewById(R.id.tv_store_desc);
                 tv.setTextColor(getResources().getColor(android.R.color.holo_red_light));
             }
             else
             {
-                TextView tv = (TextView) view.findViewById(R.id.tv_count);
+                TextView tv = (TextView) view.findViewById(R.id.tv_store_desc);
                 tv.setTextColor(getResources().getColor(android.R.color.black));
             }
 
@@ -389,7 +389,7 @@ public class inventory extends ActionBarActivity
                     lv_adapter = new MyAdapter(getApplicationContext(),
                             storehouse_item_map, R.layout.lv_item,
                             new String[]{"itemname", "epc", "store_desc"},
-                            new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count});
+                            new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_store_desc});
                     listViewData.setAdapter(lv_adapter);
                 }
                 catch (Exception e)
