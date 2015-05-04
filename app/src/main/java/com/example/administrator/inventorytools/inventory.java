@@ -1,6 +1,7 @@
 package com.example.administrator.inventorytools;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,12 +10,14 @@ import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.hdhe.uhf.reader.Tools;
@@ -283,6 +286,58 @@ public class inventory extends ActionBarActivity
         });
     }
 
+    class MyAdapter extends SimpleAdapter
+    {
+
+        /**
+         * Constructor
+         *
+         * @param context  The context where the View associated with this SimpleAdapter is running
+         * @param data     A List of Maps. Each entry in the List corresponds to one row in the list. The
+         *                 Maps contain the data for each row, and should include all the entries specified in
+         *                 "from"
+         * @param resource Resource identifier of a view layout that defines the views for this list
+         *                 item. The layout file should include at least those named views defined in "to"
+         * @param from     A list of column names that will be added to the Map associated with each
+         *                 item.
+         * @param to       The views that should display column in the "from" parameter. These should all be
+         *                 TextViews. The first N views in this list are given the values of the first N columns
+         */
+        public MyAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to)
+        {
+            super(context, data, resource, from, to);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            View view;
+            if (convertView == null)
+            {
+                view = getLayoutInflater().inflate(R.layout.lv_item, null);
+            } else
+            {
+                view = convertView;
+            }
+
+            //获取被点击的item所对应的数据
+            Map<String, Object> map = storehouse_item_map.get(position);
+            System.out.println("xxx - " + position + " --- " + map);
+            if ( map.get("store_desc").toString().equalsIgnoreCase("不在库") )
+            {
+                TextView tv = (TextView) view.findViewById(R.id.tv_count);
+                tv.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+            }
+            else
+            {
+                TextView tv = (TextView) view.findViewById(R.id.tv_count);
+                tv.setTextColor(getResources().getColor(android.R.color.black));
+            }
+
+            return super.getView(position, view, parent);
+        }
+    }
+
     //使用XML形式操作
     class SpinnerJsonSelectedListener implements AdapterView.OnItemSelectedListener
     {
@@ -297,7 +352,6 @@ public class inventory extends ActionBarActivity
 
             //获取被点击的item所对应的数据
             Map<String, Object> map = storehouse_map.get(position);
-
             try
             {
                 String url = "http://192.168.1.10:6000/inventory_api/get_items_by_storehouse/" + map.get("ID").toString() + "/";
@@ -332,7 +386,7 @@ public class inventory extends ActionBarActivity
 
                     System.out.println("666" + storehouse_item_map);
                     // 绑定数据到listview
-                    lv_adapter = new SimpleAdapter(getApplicationContext(),
+                    lv_adapter = new MyAdapter(getApplicationContext(),
                             storehouse_item_map, R.layout.lv_item,
                             new String[]{"itemname", "epc", "store_desc"},
                             new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count});
