@@ -37,7 +37,6 @@ import static com.example.administrator.inventorytools.Util.DoHttpGet;
 
 public class inventory extends ActionBarActivity
 {
-    private ArrayAdapter adapter;
     private UhfReadTask uhf_read_task;  // 异步读取rfid标签任务
     private ListView listViewData;
     private UhfReader reader; //超高频读写器
@@ -134,7 +133,7 @@ public class inventory extends ActionBarActivity
             // 下拉列表内容
             Spinner spinner_storehouses = (Spinner) findViewById(R.id.spinner_storehouses);
             //将可选内容与ArrayAdapter连接起来
-            adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, storehouse_name_list);
+            ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, storehouse_name_list);
 
             //设置下拉列表的风格
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
