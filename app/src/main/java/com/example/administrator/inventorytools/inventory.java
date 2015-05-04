@@ -217,20 +217,33 @@ public class inventory extends ActionBarActivity
         listViewData = (ListView) findViewById(R.id.lv_inventory);
 
         // 界面元素映射
-        Button btn_inventory = (Button) findViewById(R.id.btn_inventory);
+        final Button btn_inventory = (Button) findViewById(R.id.btn_inventory);
         btn_inventory.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (reader != null)
+                if ( btn_inventory.getText() == "开始盘点" )
                 {
-                    uhf_read_task = new UhfReadTask();
-                    uhf_read_task.execute("");
+                    if (reader != null)
+                    {
+                        uhf_read_task = new UhfReadTask();
+                        uhf_read_task.execute("");
+
+                        btn_inventory.setText("停止盘点");
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "打开RFID读写器失败!", Toast.LENGTH_SHORT).show();
+                    if ( !uhf_read_task.isCancelled() )
+                    {
+                        uhf_read_task.cancel(true);
+                        btn_inventory.setText("开始盘点");
+                    }
                 }
             }
         });
