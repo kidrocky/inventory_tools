@@ -1,6 +1,7 @@
 package com.example.administrator.inventorytools;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -56,18 +58,29 @@ public class Util
     {
         try
         {
+            System.out.println("111  " + url);
             HttpClient client = new DefaultHttpClient();
+            System.out.println("222  " + url);
             HttpGet get = new HttpGet(url);
+            System.out.println("333  " + url);
             HttpResponse response = client.execute(get);
+            System.out.println("444  " + url);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
             {
                 HttpEntity entity = response.getEntity();
                 return EntityUtils.toString(entity, HTTP.UTF_8);
             }
         }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         catch (Exception e)
         {
-            Log.e("HttpGet", e.getMessage());
+            // Log.e("HttpGet", e.getMessage());
+            System.out.println("1111111111111111111" + url);
+            e.printStackTrace();
         }
 
         return "";

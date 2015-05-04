@@ -1,9 +1,11 @@
 package com.example.administrator.inventorytools;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,12 +45,29 @@ public class inventory extends ActionBarActivity
     private ArrayList<Map<String, Object>> storehouse_item_map;
     private SimpleAdapter lv_adapter;
     private int connect_stat;
+    private static int isInventory = 0;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
+
+        // 设置StrictMode，使在主线程中访问网络不报错（android4.0以后，在主线程中访问网络会报异常，避免主线程的长时间不响应）
+        // 详见StrictMode文档
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
 
         // 从intent中获取联机状态
         Intent intent = getIntent();
@@ -85,23 +104,10 @@ public class inventory extends ActionBarActivity
             reader.setOutputPower(value);
         }
 
-        // todo: spinner内容需要动态获取，暂时从xml里写死
-        /*
         try
         {
-            storehouse_list = this.GetStoreHouseList();
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        */
-        // for test
-        JSONArray jsonArray;
-        try
-        {
-            // for test
-            jsonArray = new JSONArray("[{\"id\": 1, \"storename\": \"物证库房\"}, {\"id\": 2, \"storename\": \"武器库房\"}, {\"id\": 3, \"storename\": \"耗材库房\"}, {\"id\": 4, \"storename\": \"还有啥子库房\"}]");
+            String storehouse_list = this.GetStoreHouseList();
+            JSONArray jsonArray = new JSONArray(storehouse_list);
             for (int i = 0; i < jsonArray.length(); i++)
             {
                 try
@@ -150,7 +156,7 @@ public class inventory extends ActionBarActivity
 
     protected String GetStoreHouseList()
     {
-        String url = "http://rocknio.gnway.cc:8000/inventory_api/get_storehouse_list/";
+        String url = "http://192.168.1.10:6000/inventory_api/get_storehouse_list/";
         return DoHttpGet(url);
     }
 
@@ -223,7 +229,7 @@ public class inventory extends ActionBarActivity
             @Override
             public void onClick(View v)
             {
-                if ( btn_inventory.getText() == "开始盘点" )
+                if ( isInventory == 0 )
                 {
                     if (reader != null)
                     {
@@ -231,6 +237,7 @@ public class inventory extends ActionBarActivity
                         uhf_read_task.execute("");
 
                         btn_inventory.setText("停止盘点");
+                        isInventory = 1;
                     }
                     else
                     {
@@ -239,11 +246,9 @@ public class inventory extends ActionBarActivity
                 }
                 else
                 {
-                    if ( !uhf_read_task.isCancelled() )
-                    {
-                        uhf_read_task.cancel(true);
-                        btn_inventory.setText("开始盘点");
-                    }
+                    uhf_read_task.cancel(true);
+                    btn_inventory.setText("开始盘点");
+                    isInventory = 0;
                 }
             }
         });
@@ -293,61 +298,53 @@ public class inventory extends ActionBarActivity
             Map<String, Object> map = storehouse_map.get(position);
             System.out.println("444" + map);
 
-            /*
-            String url = "http://rocknio.gnway.cc:8000/inventory_api/get_items_by_storehouse/" + map.get("id").toString();
             try
             {
-                url = URLEncoder.encode(url, "UTF-8");
+                String url = "http://192.168.1.10:6000/inventory_api/get_items_by_storehouse/" + map.get("ID").toString() + "/";
                 String resp = Util.DoHttpGet(url);
-                JSONObject jsonObject = new JSONObject(resp);
-                // todo 更新listview
-            }
-            catch (UnsupportedEncodingException | JSONException e)
-            {
-                e.printStackTrace();
-            }
-            */
-
-            // for test
-            JSONArray jsonArray;
-            storehouse_item_map.clear();
-            try
-            {
-                jsonArray = new JSONArray("[{\"itemno\": \"0001\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"屠龙刀\", \"id\": 1, \"epc\": \"0000001\"}, {\"itemno\": \"0002\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"倚天剑\", \"id\": 2, \"epc\": \"0000002\"}, {\"itemno\": \"0003\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"独孤九剑\", \"id\": 3, \"epc\": \"0000003\"}, {\"itemno\": \"0004\", \"status\": 0, \"storehouseid\": 1, \"itemname\": \"辟邪剑谱\", \"id\": 4, \"epc\": \"0000004\"}]");
-                for (int i = 0; i < jsonArray.length(); i++)
+                JSONArray jsonArray = new JSONArray(resp);
+                storehouse_item_map.clear();
+                try
                 {
-                    try
+                    for (int i = 0; i < jsonArray.length(); i++)
                     {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        System.out.println("111" + jsonObject);
+                        try
+                        {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            System.out.println("111" + jsonObject);
 
-                        Map<String, Object> detail_map;
-                        detail_map = new HashMap<>();
-                        detail_map.put("itemno", jsonObject.getString("itemno"));
-                        detail_map.put("status", jsonObject.getInt("status"));
-                        detail_map.put("storehouseid", jsonObject.getInt("storehouseid"));
-                        detail_map.put("itemname", jsonObject.getString("itemname"));
-                        detail_map.put("id", jsonObject.getInt("id"));
-                        detail_map.put("store_desc", "不在库");
-                        detail_map.put("epc", jsonObject.getString("epc"));
-                        System.out.println("555" + detail_map);
-                        storehouse_item_map.add(detail_map);
+                            Map<String, Object> detail_map;
+                            detail_map = new HashMap<>();
+                            detail_map.put("itemno", jsonObject.getString("itemno"));
+                            detail_map.put("status", jsonObject.getInt("status"));
+                            detail_map.put("storehouseid", jsonObject.getInt("storehouseid"));
+                            detail_map.put("itemname", jsonObject.getString("itemname"));
+                            detail_map.put("id", jsonObject.getInt("id"));
+                            detail_map.put("store_desc", "不在库");
+                            detail_map.put("epc", jsonObject.getString("epc"));
+                            System.out.println("555" + detail_map);
+                            storehouse_item_map.add(detail_map);
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
+
+                    System.out.println("666" + storehouse_item_map);
+                    // 绑定数据到listview
+                    lv_adapter = new SimpleAdapter(getApplicationContext(),
+                            storehouse_item_map, R.layout.lv_item,
+                            new String[]{"itemname", "epc", "store_desc"},
+                            new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count});
+                    listViewData.setAdapter(lv_adapter);
                 }
-
-                System.out.println("666" + storehouse_item_map);
-                // 绑定数据到listview
-                lv_adapter = new SimpleAdapter(getApplicationContext(),
-                        storehouse_item_map, R.layout.lv_item,
-                        new String[]{"itemname", "epc", "store_desc"},
-                        new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_count});
-                listViewData.setAdapter(lv_adapter);
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (JSONException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -375,6 +372,7 @@ public class inventory extends ActionBarActivity
             Log.i("UhfReadTask", "onProgressUpdate() called");
 
             // 刷新listview
+            System.out.println(storehouse_item_map);
             lv_adapter.notifyDataSetChanged();
         }
 
@@ -403,7 +401,7 @@ public class inventory extends ActionBarActivity
                         String epcStr = Tools.Bytes2HexString(epc, epc.length);
                         for (Map<String, Object> one_item: storehouse_item_map)
                         {
-                            if ( epcStr == one_item.get("epc") )
+                            if ( one_item.get("epc").toString().equalsIgnoreCase(epcStr) )
                             {
                                 one_item.put("store_desc", "在库");
                             }
