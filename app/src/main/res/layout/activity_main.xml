@@ -18,7 +18,8 @@
         android:layout_marginTop="28dp"
         android:layout_below="@+id/tv_connect_stat_label"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:visibility="invisible"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,6 +55,7 @@
         android:text="@string/str_write_rfid"
         android:id="@+id/btn_write_rfid"
         android:layout_alignBottom="@+id/btn_inventory"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"/>
 
 </RelativeLayout>
