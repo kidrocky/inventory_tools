@@ -446,8 +446,8 @@ public class inventory extends ActionBarActivity
                 epcList = reader.inventoryRealTime();
                 if (epcList != null && !epcList.isEmpty())
                 {
-                    //播放提示音
-                    Util.play(1, 0);
+                    // 播放提示音
+                    // Util.play(1, 0);
                     for (byte[] epc : epcList)
                     {
                         String epcStr = Tools.Bytes2HexString(epc, epc.length);
