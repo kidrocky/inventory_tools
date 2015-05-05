@@ -469,6 +469,7 @@ public class inventory extends ActionBarActivity
                 publishProgress("");
 
                 // 每一次扫描间隔一点时间
+                /*
                 try
                 {
                     Thread.sleep(40);
@@ -477,6 +478,7 @@ public class inventory extends ActionBarActivity
                 {
                     e.printStackTrace();
                 }
+                */
             }
             return "";
         }
