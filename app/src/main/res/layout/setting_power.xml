@@ -35,20 +35,17 @@
         android:id="@+id/button_plus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/button_min"
-        android:layout_marginLeft="19dp"
-        android:layout_toRightOf="@+id/editText_power"
         android:text="@string/settings_power_add"
-         />
+        android:layout_alignTop="@+id/editText_power"
+        android:layout_toRightOf="@+id/editText_power"/>
 
     <Button
         android:id="@+id/button_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_plus"
-        android:layout_marginTop="41dp"
-        android:layout_toRightOf="@+id/editText_power"
-        android:text="@string/settings_power_set" />
+        android:text="@string/settings_power_set"
+        android:layout_below="@+id/sb_power"
+        android:layout_toRightOf="@+id/editText_power"/>
 
     <SeekBar
         android:layout_width="wrap_content"
