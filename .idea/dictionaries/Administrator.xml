@@ -3,13 +3,16 @@
     <words>
       <w>baos</w>
       <w>fout</w>
+      <w>instore</w>
       <w>inventorytools</w>
       <w>itemname</w>
       <w>itemno</w>
+      <w>outstore</w>
       <w>rfid</w>
       <w>scaninterval</w>
       <w>storehouseid</w>
       <w>storename</w>
+      <w>totalcount</w>
       <w>writestr</w>
     </words>
   </dictionary>

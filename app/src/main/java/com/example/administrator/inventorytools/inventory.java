@@ -45,6 +45,9 @@ public class inventory extends ActionBarActivity
     private SimpleAdapter lv_adapter;
     private int connect_stat;
     private static int isInventory = 0;
+    private TextView tv_totalcount;
+    private TextView tv_instore;
+    private TextView tv_outstore;
 
     @SuppressLint("NewApi")
     @Override
@@ -281,6 +284,10 @@ public class inventory extends ActionBarActivity
                 }
             }
         });
+
+        tv_totalcount = (TextView) findViewById(R.id.tv_totalcount);
+        tv_instore = (TextView) findViewById(R.id.tv_instore);
+        tv_outstore = (TextView) findViewById(R.id.tv_outstore);
     }
 
     class MyAdapter extends SimpleAdapter
@@ -320,7 +327,7 @@ public class inventory extends ActionBarActivity
             //获取被点击的item所对应的数据
             Map<String, Object> map = storehouse_item_map.get(position);
             System.out.println("xxx - " + position + " --- " + map);
-            if ( map.get("store_desc").toString().equalsIgnoreCase("不在库") )
+            if ( map.get("store_desc").toString().equalsIgnoreCase("离库") )
             {
                 TextView tv = (TextView) view.findViewById(R.id.tv_store_desc);
                 tv.setTextColor(getResources().getColor(android.R.color.holo_red_light));
@@ -388,6 +395,9 @@ public class inventory extends ActionBarActivity
                             new String[]{"itemname", "epc", "store_desc"},
                             new int[]{R.id.tv_id, R.id.tv_epc, R.id.tv_store_desc});
                     listViewData.setAdapter(lv_adapter);
+
+                    // 显示待盘库库存总数
+                    tv_totalcount.setText(Integer.toString(storehouse_item_map.size()));
                 }
                 catch (Exception e)
                 {
@@ -423,6 +433,18 @@ public class inventory extends ActionBarActivity
 
             // 刷新listview
             lv_adapter.notifyDataSetChanged();
+
+            // 设置在库，离库数量
+            String[] count_list = values[0].split("-");
+            if ( Integer.parseInt(count_list[0]) > 0 )
+            {
+                tv_instore.setText(count_list[0]);
+            }
+
+            if ( Integer.parseInt(count_list[1]) > 0 )
+            {
+                tv_outstore.setText(count_list[1]);
+            }
         }
 
         @Override
@@ -440,6 +462,8 @@ public class inventory extends ActionBarActivity
             List<byte[]> epcList;
             while(!this.isCancelled())
             {
+                int instore_count = 0;
+                int outstore_count = 0;
                 epcList = reader.inventoryRealTime();
                 if (epcList != null && !epcList.isEmpty())
                 {
@@ -447,12 +471,23 @@ public class inventory extends ActionBarActivity
                     // Util.play(1, 0);
                     for (byte[] epc : epcList)
                     {
+                        instore_count = 0;
+                        outstore_count = 0;
                         String epcStr = Tools.Bytes2HexString(epc, epc.length);
                         for (Map<String, Object> one_item: storehouse_item_map)
                         {
                             if ( one_item.get("epc").toString().equalsIgnoreCase(epcStr) )
                             {
                                 one_item.put("store_desc", "在库");
+                            }
+
+                            if ( one_item.get("store_desc").toString().equalsIgnoreCase("在库") )
+                            {
+                                instore_count++;
+                            }
+                            else
+                            {
+                                outstore_count++;
                             }
                         }
                     }
@@ -463,7 +498,7 @@ public class inventory extends ActionBarActivity
                 }
 
                 // 更新ui
-                publishProgress("");
+                publishProgress(Integer.toString(instore_count) + "-" + Integer.toString(outstore_count));
 
                 // 每一次扫描间隔一点时间
                 /*

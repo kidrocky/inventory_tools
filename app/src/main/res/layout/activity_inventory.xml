@@ -48,13 +48,13 @@
         android:id="@+id/lv_inventory"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_above="@+id/btn_inventory"
         android:layout_below="@+id/spinner_storehouses"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
         android:divider="#ffb7b7b7"
         android:dividerHeight="1dp"
-        android:drawSelectorOnTop="true"/>
+        android:drawSelectorOnTop="true"
+        android:layout_above="@+id/tv_totalcount_label"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -65,5 +65,58 @@
         android:layout_toLeftOf="@+id/btn_inventory_back"
         android:layout_toStartOf="@id/btn_inventory_back"
         android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_totalcount"
+        android:id="@+id/tv_totalcount_label"
+        android:layout_above="@+id/btn_inventory_back"
+        android:layout_toRightOf="@+id/btn_inventory_save"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_zero"
+        android:id="@+id/tv_totalcount"
+        android:textStyle="bold"
+        android:layout_below="@+id/lv_inventory"
+        android:layout_toRightOf="@+id/tv_totalcount_label"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_instore"
+        android:id="@+id/tv_instore_label"
+        android:layout_above="@+id/btn_inventory"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_zero"
+        android:id="@+id/tv_instore"
+        android:layout_above="@+id/btn_inventory"
+        android:layout_toRightOf="@+id/tv_instore_label"
+        android:textColor="#ff02ae12"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_outstore"
+        android:id="@+id/tv_outstore_label"
+        android:layout_below="@+id/lv_inventory"
+        android:layout_toLeftOf="@+id/btn_inventory_save"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_zero"
+        android:id="@+id/tv_outstore"
+        android:layout_above="@+id/btn_inventory"
+        android:layout_toRightOf="@+id/tv_outstore_label"
+        android:textStyle="bold"
+        android:textColor="#ffff0409"/>
 
 </RelativeLayout>

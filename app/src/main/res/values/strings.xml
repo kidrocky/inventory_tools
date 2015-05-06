@@ -23,4 +23,8 @@
     <string name="str_write_rfid">写标签</string>
     <string name="title_activity_write_rfid">WriteRfidActivity</string>
     <string name="str_scaninterval">扫描间隔（毫秒）：</string>
+    <string name="str_totalcount">总数：</string>
+    <string name="str_zero">0</string>
+    <string name="str_instore">在库：</string>
+    <string name="str_outstore">离库：</string>
 </resources>
